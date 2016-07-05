@@ -26,9 +26,8 @@ app.listen(port, function() {
 });
 
 
-app.get('//', function(req,res){
-	res.send('<p>Welcome to the digital dark side</p>' + 
-		'<iframe width="560" height="315" src="https://www.youtube.com/embed/OX9I1KyNa8M" frameborder="0" allowfullscreen></iframe>');
+app.get('/', function(req,res){
+	res.sendFile(__dirname + '/app/views/index.html');
 });
 
 
