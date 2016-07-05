@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/atomicman/website/issues"
   },
-  "homepage": "https://github.com/atomicman/website#readme"
+  "homepage": "https://github.com/atomicman/website#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
