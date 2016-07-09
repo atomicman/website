@@ -24,9 +24,14 @@ app.listen(port, function() {
 });
 
 
-app.get('/', function(req,res){
-	res.sendFile(__dirname + '/app/views/index.html');
-});
+
+
+var mr = require('./app/routes/music.server.routes.js')(app);
+var ir = require('./app/routes/index.server.routes.js')(app);
+console.log(mr);
+console.log(ir);
+
+console.log('just added my music route to app..');
 
 
 

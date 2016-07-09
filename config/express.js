@@ -1,13 +1,22 @@
 'use strict'
 
 var express = require('express');
+var path = require('path');
 
 module.exports = function(){
 	var app = express();
 
+
+
 	// configure view engine
-	app.set('views', __dirname + '/app/views')
+	app.set('views','./app/views')
 	app.set('view engine', 'ejs');
+
+	// TODO  remove this
+	app.get('/react', function(req,res){
+		console.log("React path: " + __dirname);
+		res.sendFile(path.join(__dirname,'../app/views/reactTest.html'));
+	});
 
 	return app;
 };
