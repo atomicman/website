@@ -26,9 +26,24 @@
 					<button id='stop' type='button' class='btn btn-default'>Stop</button>
 				</div>
 				<div class='col-xs-3'>
-					<span>Toggle Frequency</span>
-					<input id='slider' type='range' min='0' max='5000' onchange='printVal(this.value)'>
-					<div>Value of slider:<span id='sliderVal'></span></div>
+					<span>Adjust Frequency</span>
+					<input id='slider' type='range' min='0' max='5000' onchange='update(this.value)' defaultVAlue='2500' step='5'>
+					<div><span id='sliderVal'></span> Hz</div>
+				</div>
+				<div class='col-xs-3'>
+					<span>Detune</span>
+					<input id='detuner' type='range' min='0' max='1000' onchange='detune(this.value)' defaultVAlue='2500' step='5'>
+					<div><span id='detuneVal'></span> </div>
+				</div>
+				<div class='col-xs-3'>
+					<span>Change Type</span>
+					<select id='type'>
+						<option value='sine'>sine</option>
+						<option value='square'>square</option>
+						<option value='sawtooth'>sawtooth</option>
+						<option value='triangle'>triangle</option>
+						<option value='custom'>custom</option>
+					</select>
 				</div>
 			</div>
 			<!-- </div> -->
@@ -57,24 +72,55 @@
 
 	</script>
 	<script>
-		console.log("Audio ctx: " + audioCtx);
 		var oscillator = audioCtx.createOscillator();
 		oscillator.connect(audioCtx.destination);
 
 		$('#start').click(function(){oscillate(true)});
 		$('#stop').click(function(){oscillate(false)});
+		$('#type').change(function(){updateType()});
+
+		$('#slider').val(oscillator.frequency.value);
+		update(oscillator.frequency.value);
+
+		$('#detuner').val(oscillator.detune.value);
+		detune(oscillator.detune.value);
+
+		$('#type').val(oscillator.type);
+
+		function update(val){
+			printVal(val);
+			oscillator.frequency.value = val;
+		};
+
+		function updateType(){
+			oscillator.type = $('#type').val();
+		};
+
+		function detune(val){
+			writeDetuneVal(val);
+			oscillator.detune.value = val;
+		};
 
 		function printVal(val){
 			$('#sliderVal').text(val);
 		};
 
+		function writeDetuneVal(val){
+			$('#detuneVal').text(val);
+		};
+
 		function oscillate(oscillate){
 			if (oscillate){
+				if (oscillator == null){
+					oscillator = audioCtx.createOscillator();
+					oscillator.connect(audioCtx.destination);
+				}
 				console.log('Starting oscillator...');
 				oscillator.start(0);
 			} else {
 				console.log('stopping oscillator...');
 				oscillator.stop();
+				oscillator = null;
 			}
 		};
 	</script>
