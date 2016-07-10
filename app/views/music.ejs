@@ -3,6 +3,7 @@
 <head>
 	<title>Music App</title>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
 	<div class='container-fluid'>
@@ -10,8 +11,15 @@
 			<h2>Web Audio Api Widgets</h2>
 		</div>
 		<p>Let's get started!</p>
+
+
+		<div class='page-header'>
+			<h4>Oscillator Node</h4>
+		</div>
 		<div class='well'>
-			<p>This will be our first section.</p>
+			<p>Toggle Oscillator Node</p>
+			<button id='start' type='button' class='btn btn-primary'>Start</button>
+			<button id='stop' type='button' class='btn btn-default'>Stop</button>
 		</div>
 	</div>
 
@@ -21,11 +29,39 @@
 		var audioCtx = new (window.AudioContext ||window.webkitAudioContext)();
 		var distortion = audioCtx.createWaveShaper();
 
-		var buffer = null;
+		// var buffer = null;
 
-		var mp3Source = audioCtx.createBufferSource();
-		source.buffer = buffer;
+		// var request = new XMLHttpRequest();
+		// request.responseType = 'arraybuffer';
 
+		// request.onload = function(){
+		// 	// create buffer here
+		// };
+
+		// request.open('GET', '"The Fool On The Hill.".mp3', true);
+
+		// var mp3Source = audioCtx.createBufferSource();
+		// source.buffer = buffer;
+
+	</script>
+	<script>
+		console.log("Audio ctx: " + audioCtx);
+		var oscillator = audioCtx.createOscillator();
+		oscillator.connect(audioCtx.destination);
+
+		$('#start').click(function(){oscillate(true)});
+		$('#stop').click(function(){oscillate(false)});
+
+
+		function oscillate(oscillate){
+			if (oscillate){
+				console.log('Starting oscillator...');
+				oscillator.start(0);
+			} else {
+				console.log('stopping oscillator...');
+				oscillator.stop();
+			}
+		};
 	</script>
 	<!-- -------------------------------------------------------------------------- -->
 
