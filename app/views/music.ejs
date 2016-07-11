@@ -47,8 +47,25 @@
 				</div>
 			</div>
 			<!-- </div> -->
+
+
+		</div>
+
+		<!-- ======================= Audo Buffer section  ==========================m-->
+		<div class='container-fluid'>
+			<div class='page-header'>
+				<h4>Audio Buffer Stuff</h4>
+			</div>
+			<div class='row well'>
+				<div class='col-xs-3'>
+					<p>Select an audio file:</p>
+					<input id='file' type='file' accept='audio/*'>
+
+				</div>
+			</div>
 		</div>
 	</div>
+
 
 
 	<!-- This is main script -->
@@ -124,7 +141,21 @@
 			}
 		};
 	</script>
+
 	<!-- -------------------------------------------------------------------------- -->
+
+	<script>
+	$('#file').on('change', function(){
+		console.log('File chooser changed');
+	});
+
+
+
+
+	</script>
+
+	<!-- -------------------------------------------------------------------------- -->
+
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
