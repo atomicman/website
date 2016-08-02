@@ -36,12 +36,12 @@
 				</div>
 				<div class='col-xs-3'>
 					<span>Adjust Frequency</span>
-					<input id='slider' type='range' min='0' max='5000' onchange='update(this.value)' defaultVAlue='2500' step='5'>
+					<input id='slider' type='range' min='0' max='5000' onchange='update(this.value)' defaultValue='2500' step='5'>
 					<div><span id='sliderVal'></span> Hz</div>
 				</div>
 				<div class='col-xs-3'>
 					<span>Detune</span>
-					<input id='detuner' type='range' min='0' max='1000' onchange='detune(this.value)' defaultVAlue='2500' step='5'>
+					<input id='detuner' type='range' min='0' max='1000' onchange='detune(this.value)' defaultValue='2500' step='5'>
 					<div><span id='detuneVal'></span> </div>
 				</div>
 				<div class='col-xs-3'>
@@ -68,19 +68,39 @@
 			<div class='row well'>
 				<div class='col-xs-3'>
 					<p>Select an audio file:</p>
-					<input id='file' type='file' accept='audio/*'>
-					<br>
-<!-- 					<button type='button' id='audioPlay' class='btn btn-primary'>Play</button>
-					<button type='button' id='audioStop' class='btn btn-default'>Stop</button> -->
+					<!-- <input id='file' type='file' accept='audio/*'> -->
 
-					<audio>
-						<source></source>
-					</audio>
+					<br>
+					<button type='button' id='audioStart' class='btn btn-primary'>Play</button>
+					<button type='button' id='audioStop' class='btn btn-default'>Stop</button>
+				</div>
+				<div class='col-xs-3'>
+					<p>Data Analysis</p>
+					<textarea></textarea>
 				</div>
 			</div>
 		</div>
-	</div>
 
+		<!-- ======================= Biquad Filter section  ==========================m-->
+		<div class='container-fluid'>
+			<div class='page-header'>
+				<h4>Biquad Filter Node</h4>
+			</div>
+			<div class='row well'>
+				<div class='col-xs-3'>
+					<audio controls onerror='printError()' id='biquadAudio'>
+						<source src='./SeaOfAir.mp3' type='audio/mpeg'/>
+						Browswer doesn't support audio element
+					</audio>
+				</div>
+				<div class='col-xs-3'>
+					<span>Adjust Frequency</span>
+					<input id='biquadSlider' type='range' min='0' max='5' onchange='onGainChange(this.value)'  step='1'>
+					<div><span id='biquadGainVal'></span> Hz</div>
+				</div>
+				<br>
+			</div>
+		</div>
 
 
 	<!-- This is main script -->
@@ -165,6 +185,39 @@
 		console.log(this.files[0]);
 		console.log(JSON.stringify(this.files[0]));
 	});
+	$('#audioStart').on('click',function(){
+		console.log('You just clicked the button!');
+		play();
+	});
+
+	var source = audioCtx.createBufferSource();
+	init();
+
+	function init(){
+		console.log('initializing ajax request...');
+		var request = new XMLHttpRequest();
+		request.open('GET','SeaOfAir.mp3',true);
+		request.responseType = "arraybuffer";
+		request.onload = function(){
+			console.log('loading...');
+			var audioData = request.response;
+
+			audioCtx.decodeAudioData(audioData, function(buffer){
+				console.log('buffer was passed...');
+				console.log('Source before: ' + source);
+				source.buffer = buffer;
+
+				source.connect(audioCtx.destination);
+
+			});
+		};
+		request.send();
+	};
+
+	function play(){
+		console.log('Source after: ' + source);
+		source.start();
+	};
 
 
 
@@ -172,8 +225,7 @@
 	</script>
 
 	<!-- -------------------------------------------------------------------------- -->
-
-
+	<script src='/js/biquad.js'></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 </html>

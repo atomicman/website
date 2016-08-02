@@ -6,7 +6,7 @@ var path = require('path');
 module.exports = function(){
 	var app = express();
 
-
+	app.use(express.static('./public'));
 
 	// configure view engine
 	app.set('views','./app/views')
